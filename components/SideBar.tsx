@@ -6,6 +6,7 @@ import NewChat from './NewChat';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import ChatRow from './ChatRow';
+import ModelSelection from './ModelSelection';
 
 function SideBar() {
   // destructue and rename data to session
@@ -22,15 +23,24 @@ function SideBar() {
   return (
     <div className="flex p-2 flex-col h-screen">
       <div className="flex-1">
-        {/*New Chat */}
         <NewChat />
 
-        <div>{/* ModelSelection */}</div>
+        <div>
+          <ModelSelection />
+        </div>
 
-        {/* Map through the chatRows */}
-        {chats?.docs.map((chat) => (
-          <ChatRow key={chat.id} id={chat.id} />
-        ))}
+        <div className="flex flex-col space-y-2 my-2">
+          {loading && (
+            <div className="animate-pulse text-center text-white">
+              <p>채팅 불러오는 중...</p>
+            </div>
+          )}
+
+          {/* Map through the chatRows */}
+          {chats?.docs.map((chat) => (
+            <ChatRow key={chat.id} id={chat.id} />
+          ))}
+        </div>
       </div>
 
       {session && (
